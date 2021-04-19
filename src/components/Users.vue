@@ -1,67 +1,70 @@
 <template>
-  <div class="container">
-    <div class="heading mb-4">
-      <h3 class="mb-4 font-weight-bold">Users Ranks</h3>
+  <div>
+    <div class="header"></div>
+    <div class="container">
+      <div class="heading mb-5">
+        <h3 class="mb-4 font-weight-bold text-light">Users Ranks</h3>
 
-      <div class="row">
-        <div class="col-3">
-          <select
-            class="custom-select"
-            name="sortBy"
-            id="sortBy"
-            v-model="sortBy"
-          >
-            <option value="highest">highest rank</option>
-            <option value="lowest">lowest rank</option>
-          </select>
-        </div>
-        <div class="col-2">
-          <input
-            v-model="maxRank"
-            class="form-control mr-sm-2"
-            type="number"
-            placeholder="Max Rank"
-            aria-label="maxRank"
-          />
-        </div>
-        <div class="col-7">
-          <input
-            v-model="searchValue"
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search by name"
-            aria-label="Search"
-          />
+        <div class="row">
+          <div class="col-3">
+            <select
+              class="custom-select"
+              name="sortBy"
+              id="sortBy"
+              v-model="sortBy"
+            >
+              <option value="highest">highest rank</option>
+              <option value="lowest">lowest rank</option>
+            </select>
+          </div>
+          <div class="col-2">
+            <input
+              v-model="maxRank"
+              class="form-control mr-sm-2"
+              type="number"
+              placeholder="Max Rank"
+              aria-label="maxRank"
+            />
+          </div>
+          <div class="col-7">
+            <input
+              v-model="searchValue"
+              class="form-control mr-sm-2"
+              type="search"
+              placeholder="Search by name"
+              aria-label="Search"
+            />
+          </div>
         </div>
       </div>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Rank</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">City</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in filteredUsers" v-bind:key="user.id">
+            <th scope="row">{{ user.rank }}</th>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.address.city }}</td>
+            <td>
+              <div class="rank-arrow" v-on:click="() => rankUp(user)">
+                &#8657;
+              </div>
+              <div class="rank-arrow" v-on:click="() => rankDown(user)">
+                &#8659;
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Rank</th>
-          <th scope="col">Name</th>
-          <th scope="col">Email</th>
-          <th scope="col">City</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="user in filteredUsers" v-bind:key="user.id">
-          <th scope="row">{{ user.rank }}</th>
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.address.city }}</td>
-          <td>
-            <div class="rank-arrow" v-on:click="() => rankUp(user)">
-              &#8657;
-            </div>
-            <div class="rank-arrow" v-on:click="() => rankDown(user)">
-              &#8659;
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </template>
 
@@ -141,5 +144,12 @@ h3 {
 
 .rank-arrow {
   cursor: pointer;
+}
+
+.header {
+  width: 100%;
+  height: 200px;
+  background-color: #0e1e25;
+  margin-bottom: -120px;
 }
 </style>
