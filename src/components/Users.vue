@@ -1,13 +1,41 @@
 <template>
   <div class="container">
     <div class="heading mb-4">
-      <h3>Users Ranks</h3>
-      <select name="sortBy" id="select" v-model="sortBy">
-        <option value="highest">highest rank</option>
-        <option value="lowest">lowest rank</option>
-      </select>
+      <h3 class="mb-4 font-weight-bold">Users Ranks</h3>
+
+      <div class="row">
+        <div class="col-3">
+          <select
+            class="custom-select"
+            name="sortBy"
+            id="sortBy"
+            v-model="sortBy"
+          >
+            <option value="highest">highest rank</option>
+            <option value="lowest">lowest rank</option>
+          </select>
+        </div>
+        <div class="col-2">
+          <input
+            v-model="maxRank"
+            class="form-control mr-sm-2"
+            type="number"
+            placeholder="Max Rank"
+            aria-label="maxRank"
+          />
+        </div>
+        <div class="col-7">
+          <input
+            v-model="searchValue"
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Search by name"
+            aria-label="Search"
+          />
+        </div>
+      </div>
     </div>
-    <table class="table table-striped">
+    <table class="table table-striped table-hover">
       <thead>
         <tr>
           <th scope="col">Rank</th>
@@ -45,8 +73,10 @@ export default {
   name: "Users",
   data() {
     return {
-      user: [],
-      sortBy: "highest"
+      users: [],
+      sortBy: "highest",
+      searchValue: "",
+      maxRank: null
     };
   },
   created: function() {
@@ -62,9 +92,9 @@ export default {
       // Process search input
       if (this.searchValue != "" && this.searchValue) {
         tempUsers = tempUsers.filter(item => {
-          return item.title
-            .toUpperCase()
-            .includes(this.searchValue.toUpperCase());
+          return item.name
+            .toLowerCase()
+            .includes(this.searchValue.toLowerCase());
         });
       }
 
@@ -77,6 +107,12 @@ export default {
         }
       });
 
+      // Filter out by ranl time
+      if (this.maxRank)
+        tempUsers = tempUsers.filter(item => {
+          return item.rank <= this.maxRank;
+        });
+
       // Show sorted array in descending or ascending order
       if (!this.ascending) {
         tempUsers.reverse();
@@ -88,13 +124,11 @@ export default {
   methods: {
     rankUp: function(selectedUser) {
       let index = this.users.indexOf(selectedUser);
-      console.log(this.users[index]);
       this.users[index].rank += 1;
-      console.log(this.users[index]);
     },
-    rankDown: function(user) {
-      console.log(user);
-      user.rank -= 1;
+    rankDown: function(selectedUser) {
+      let index = this.users.indexOf(selectedUser);
+      this.users[index].rank -= 1;
     }
   }
 };
