@@ -40,19 +40,15 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
+            <th scope="col"></th>
             <th scope="col">Rank</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">City</th>
-            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="user in filteredUsers" v-bind:key="user.id">
-            <th scope="row">{{ user.rank }}</th>
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.address.city }}</td>
             <td>
               <div class="rank-arrow" v-on:click="() => rankUp(user)">
                 &#8657;
@@ -61,6 +57,10 @@
                 &#8659;
               </div>
             </td>
+            <th scope="row">{{ user.rank }}</th>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.address.city }}</td>
           </tr>
         </tbody>
       </table>
